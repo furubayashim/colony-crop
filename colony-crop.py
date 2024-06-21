@@ -3,6 +3,7 @@
 from PIL import Image, ImageEnhance
 import os
 import math
+import sys
 
 # Function to create the output directory if it doesn't exist
 def create_output_directory(directory_path):
@@ -61,7 +62,7 @@ def tile_images_with_borders(image_directory, output_directory, crop_percentages
 
         # Adjust brightness
         enhancer = ImageEnhance.Brightness(tiled_image)
-        tiled_image = enhancer.enhance(1.2)  # Increase brightness slightly
+        tiled_image = enhancer.enhance(1.3)  # Increase brightness slightly
 
         # Save the tiled image
         output_filename = f'tiled_image_with_borders_{int(crop_percentage*100)}_percent.jpg'
@@ -71,11 +72,18 @@ def tile_images_with_borders(image_directory, output_directory, crop_percentages
     
     return output_file_paths
 
+
+
 # Path to the directory containing the images
-image_directory = './'
+if len(sys.argv) >1:
+    if sys.argv[1][:-1] == "/": image_directory = sys.argv[1]
+    else: image_directory = sys.argv[1] + "/"
+else:
+    print("need file name as argument")
+    sys.exit()
 
 # Path to the directory to save the output tiled images
-output_directory = 'output/'
+output_directory = image_directory+'output/'
 
 # Crop percentages for the two tiled images
 crop_percentages = [0.25, 0.9]
